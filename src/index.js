@@ -5,6 +5,7 @@ import './scss/main.scss';
 // import libs
 import $ from 'jquery';
 import 'bootstrap';
+import echarts from 'echarts';
 
 // import js
 import Map from './lib/map';
@@ -33,6 +34,55 @@ $('#txtAdd').keypress(e => {
     if (e.keyCode === 13) searchLocation();
 });
 
+const myChart = echarts.init(document.getElementById('radarChart'));
+
+myChart.setOption({
+    // title: {
+    //     text: '幸福指數六角圖',
+    //     textStyle: {
+    //         fontSize: '24',
+    //     },
+    // },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        x: 'center',
+        data: ['環境', '安全', '交通', '教育', '便利']
+    },
+    textStyle: {
+        color: '#000',
+        fontSize: '20',
+    },
+    radar: [
+        {
+            indicator: [
+                { text: '環境', max: 100 },
+                { text: '安全', max: 100 },
+                { text: '交通', max: 100 },
+                { text: '教育', max: 100 },
+                { text: '便利', max: 100 },
+            ],
+            // center: ['25%','40%'],
+            // radius: 80
+        },
+    ],
+    series: [
+        {
+            type: 'radar',
+            tooltip: {
+                trigger: 'item'
+            },
+            itemStyle: { normal: { areaStyle: { type: 'default' } } },
+            data: [
+                {
+                    value: [60, 73, 85, 40, 80, 56],
+                    name: '某软件'
+                }
+            ]
+        },
+    ],
+});
 
 function searchLocation() {
     const addr = $('#txtAdd').val();

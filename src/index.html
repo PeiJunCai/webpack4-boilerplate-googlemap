@@ -9,21 +9,268 @@
 </head>
 
 <body>
-    <h1>Google Map API <small>- Example</small></h1>
-    <form class="form-inline mt-2 mb-2" onsubmit="return false">
-        <div class="form-group mx-sm-3 mb-2">
-            <label for="txtAdd" class="mr-2">搜尋地址：</label>
-            <input id="txtAdd" type="text" class="form-control" placeholder="臺北總統府">
+    <header>
+        <h1 class="title">幸福IN居 <small>為您找到幸福居</small></h1>
+    </header>
+    <div class="result">
+        <div class="chart" id="radarChart" style="width: 400px; height: 400px;"></div>
+        <div class="score">幸福指數<br><span>89</span></div>
+    </div>
+
+    <div class="map-group">
+        <div class="map"></div>
+        <div class="map-tool">
+            <form class="form-inline mt-2 mb-2" onsubmit="return false">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="txtAdd" class="mr-2">搜尋地址：</label>
+                    <input id="txtAdd" type="text" class="form-control" placeholder="臺北總統府">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="txtAdd" class="mr-2">搜尋範圍：</label>
+                    <input id="txtAdd" type="text" class="form-control" placeholder="1000(單位：公尺)">
+                </div>
+                <button id="btnMarker" type="button" class="btn btn-primary mb-2 mr-2">定位</button>
+            </form>
+
+            <form class="form-inline mt-2 mb-2" onsubmit="return false">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label id="txtLat" class="mr-4">緯度(Lat)：0</label>
+                    <label id="txtLng" class="mr-4">經度(Lng)：0</label>
+                </div>
+            </form>
         </div>
-        <button id="btnMarker" type="button" class="btn btn-primary mb-2 mr-2">定位</button>
-    </form>
-    <form class="form-inline mt-2 mb-2" onsubmit="return false">
-        <div class="form-group mx-sm-3 mb-2">
-            <label id="txtLat" class="mr-4">Lat：0</label>
-            <label id="txtLng" class="mr-4">Lng：0</label>
-        </div>
-    </form>
-    <div class="map"></div>
+    </div>
+
+
+    <div class="pointer">
+        <label class="table-title">環境</label>
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    紫外線
+                </th>
+                <td>
+                    弱
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    AQI
+                </th>
+                <td>
+                    良好
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    PM 2.5
+                </th>
+                <td>
+                    20
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    水質
+                </th>
+                <td>
+                    優良
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    地下水
+                </th>
+                <td>
+                    優良
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+        </table>
+        <label class="table-title">安全</label>
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    警察局
+                </th>
+                <td>
+                    3
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    消防局
+                </th>
+                <td>
+                    2
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    醫院
+                </th>
+                <td>
+                    1
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    犯罪地點
+                </th>
+                <td>
+                    5
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+        </table>
+        <label class="table-title">交通</label>
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    捷運站
+                </th>
+                <td>
+                    3
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    公車站
+                </th>
+                <td>
+                    9
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+        </table>
+        <label class="table-title">教育</label>
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    幼兒園
+                </th>
+                <td>
+                    2
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    國小
+                </th>
+                <td>
+                    3
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    國中
+                </th>
+                <td>
+                    1
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    高中
+                </th>
+                <td>
+                    0
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    大學
+                </th>
+                <td>
+                    1
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+        </table>
+        <label class="table-title">便利</label>
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    超商
+                </th>
+                <td>
+                    7
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    商圈
+                </th>
+                <td>
+                    2
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    超市
+                </th>
+                <td>
+                    5
+                </td>
+                <td>
+                    <input type="range" min="0" max="100" step="1" data-buffer="60" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="opendata"></div>
+
 </body>
 
 </html>
