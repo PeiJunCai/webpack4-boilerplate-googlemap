@@ -19,8 +19,8 @@ console.log($('h1').text());
 console.log(document.querySelector('h1').innerText);
 
 // initial map
-const lat = 24.799448;
-const lng = 120.979021;
+const lat = 25.0173453;
+const lng = 121.5375631;
 const zoom = 14;
 const map = new Map();
 
@@ -32,6 +32,11 @@ window.onload = () => {
 $('#btnMarker').click(() => searchLocation());
 $('#txtAdd').keypress(e => {
     if (e.keyCode === 13) searchLocation();
+});
+
+$('#txtRange').bind('keyup mouseup', e => {
+    if (!map.centerCircle) return;
+    map.centerCircle.setRadius(Number(e.target.value));
 });
 
 const myChart = echarts.init(document.getElementById('radarChart'));
@@ -76,8 +81,8 @@ myChart.setOption({
             itemStyle: { normal: { areaStyle: { type: 'default' } } },
             data: [
                 {
-                    value: [60, 73, 85, 40, 80, 56],
-                    name: '某软件'
+                    value: [60, 73, 85, 40, 80],
+                    name: '五大指標'
                 }
             ]
         },
@@ -86,6 +91,8 @@ myChart.setOption({
 
 function searchLocation() {
     const addr = $('#txtAdd').val();
+    const addRange = $('#txtRange').val();
+
     if (addr === '') return;
     map.search(addr, result => {
         const { status, location, lat, lng } = result;
@@ -99,4 +106,7 @@ function searchLocation() {
         $('#txtLat').text(`Lat：${lat}`);
         $('#txtLng').text(`Lng：${lng}`);
     });
+
+    if( addRange === '' ) return;
+    map.addCircle( addRange, result );
 }

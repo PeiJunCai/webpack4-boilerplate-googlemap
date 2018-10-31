@@ -49,7 +49,7 @@ class Map {
         });
         // 將定位點置中
         this.map.setCenter(location);
-        this.map.setZoom(zoom || 14);
+        this.map.setZoom(zoom || 12);
     }
 
     /**
@@ -65,6 +65,29 @@ class Map {
                 const lng = Number(results[0].geometry.location.lng().toFixed(6));
                 callback({ status: true, lat, lng, location });
             }
+        });
+    }
+
+    /**
+     * 搜尋範圍
+     * @param {string} address 
+     * @param {object} callback 
+     */
+
+    addCircle(location, radius, color = '#C25455') {
+        // 移除當前標記
+        if (this.centerCircle) {
+            this.centerCircle.setMap(null);
+        }
+        this.centerCircle = new google.maps.Circle({
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: color,
+            fillOpacity: 0.35,
+            map: this.map,
+            center: location,
+            radius: Number(radius),
         });
     }
 }
